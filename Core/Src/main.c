@@ -157,7 +157,20 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+/* 1. 注入组回调函数 */
+void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc) {
+    if(hadc->Instance == ADC2) {
+        HAL_ADC_Start_IT(hadc); 
+    }
+}
 
+/* 2. 规则组回调函数 */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+    if(hadc->Instance == ADC2) {
+		//DMA传输完成，触发运算
+	
+    }
+}
 /* USER CODE END 4 */
 
 /**
