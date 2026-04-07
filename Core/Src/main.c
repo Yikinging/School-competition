@@ -157,17 +157,17 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-/* 1. ×¢Èë×é»Øµ÷º¯Êý */
+/* 1. ×¢ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ */
 void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc) {
     if(hadc->Instance == ADC2) {
         HAL_ADC_Start_IT(hadc); 
     }
 }
 
-/* 2. ¹æÔò×é»Øµ÷º¯Êý */
+/* 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
     if(hadc->Instance == ADC2) {
-		//DMA´«ÊäÍê³É£¬´¥·¢ÔËËã
+		//DMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
     }
 }
