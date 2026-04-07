@@ -2,4 +2,5 @@
 # MDK-ARM/RTE/*
 # "MDK-ARM/School competition/*"
 MDK-ARM/**
+.continue/*
 !MDK-ARM/startup_stm32f407xx.s
