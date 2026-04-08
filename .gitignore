@@ -3,5 +3,8 @@
 # "MDK-ARM/School competition/*"
 MDK-ARM/**
 .continue/*
+.vscode/*
 *workspace
 !MDK-ARM/startup_stm32f407xx.s
+
+
