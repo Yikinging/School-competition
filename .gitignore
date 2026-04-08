@@ -5,4 +5,8 @@ MDK-ARM/**
 .eide/**
 .cmsis/**
 .continue/*
+.pack/**
+.vscode/**
+build/**
+.clang-format
 !MDK-ARM/startup_stm32f407xx.s
