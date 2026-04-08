@@ -4,5 +4,8 @@
 MDK-ARM/**
 .vscode/*
 .continue/*
+.vscode/*
 *workspace
 !MDK-ARM/startup_stm32f407xx.s
+
+
