@@ -2,11 +2,6 @@
 # MDK-ARM/RTE/*
 # "MDK-ARM/School competition/*"
 MDK-ARM/**
-.eide/**
-.cmsis/**
 .continue/*
-.pack/**
-.vscode/**
-build/**
-.clang-format
+*workspace
 !MDK-ARM/startup_stm32f407xx.s
