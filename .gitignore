@@ -2,6 +2,10 @@
 # MDK-ARM/RTE/*
 # "MDK-ARM/School competition/*"
 MDK-ARM/**
+.vscode/*
 .continue/*
+.vscode/*
 *workspace
 !MDK-ARM/startup_stm32f407xx.s
+
+
