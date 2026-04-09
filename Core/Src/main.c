@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "OLED_GFX.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,6 +98,10 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
+	OLED_GFX_Init();
+	OLED_ShowString(0, 0, "hello!");
+	OLED_GFX_Refresh();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -159,18 +163,6 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 
-void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    if(hadc->Instance == ADC2) {
-        HAL_ADC_Start_IT(hadc); 
-    }
-}
-
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    if(hadc->Instance == ADC2) {
-		//DMA´¥·¢
-	
-    }
-}
 
 /* USER CODE END 4 */
 
