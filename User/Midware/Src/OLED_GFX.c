@@ -114,6 +114,8 @@ void OLED_ShowChar(uint8_t x, uint8_t y, char Char)
         {
             if (font_data & (1 << j)) 
                 OLED_DrawPoint(x + i, y + j + 8, 1); // y×ø±êÆ«ÒÆ8ÏñËØ
+            else
+                OLED_DrawPoint(x + i, y + j + 8, 0);
         }
     }
 }
