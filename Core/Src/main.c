@@ -27,6 +27,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "OLED_GFX.h"
+#include "ADC_Vref.h"   
+#include <stdio.h>     
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,8 +101,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	OLED_GFX_Init();
-	OLED_ShowString(0, 0, "hello!");
-	OLED_GFX_Refresh();
+
+	
+	ADC_Vref_Start();   
+	
+//	OLED_ShowString(0, 0, "hello!");
+//	OLED_GFX_Refresh();
 
   /* USER CODE END 2 */
 
@@ -111,6 +117,32 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    OLED_GFX_Clear();
+	  ADC_Read_And_Calculate(); 
+	  char str_buf[32];
+	  
+
+	  sprintf(str_buf, "Vdda: %5.2fV", sysData.Vdda);
+    OLED_ShowString(0, 0, str_buf);	
+	  
+	  sprintf(str_buf, "VDC : %5.2fV", sysData.Sample_V_DC);
+    OLED_ShowString(0, 16, str_buf);
+	  
+	  sprintf(str_buf, "VAC : %5.2fV", sysData.Sample_V_AC);
+    OLED_ShowString(0, 32, str_buf);
+	  
+//	  sprintf(str_buf, "IDC : %5.2fA", sysData.Sample_I_DC);
+//    OLED_ShowString(0, 0, str_buf);
+//	  
+//	  sprintf(str_buf, "IAC : %5.2fA", sysData.Sample_I_DC);
+//    OLED_ShowString(0, 16, str_buf);
+//	
+//	  sprintf(str_buf, "VBUS : %5.2fA", sysData.Sample_I_DC);
+//    OLED_ShowString(0, 32, str_buf);
+	  
+	  OLED_GFX_Refresh();
+	  HAL_Delay(100);
+	  
   }
   /* USER CODE END 3 */
 }
