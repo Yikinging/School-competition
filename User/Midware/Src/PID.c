@@ -18,6 +18,12 @@ struct PID_HandleTypeDef {
 // }
 
 PID_HandleTypeDef* PID_Init(PID_InitTypeDef* init) {
+    // Verify input parameter
+    if (init == NULL) {
+        return NULL;
+    }
+
+    // Allocate memory for PID handle
     PID_HandleTypeDef* handle = (PID_HandleTypeDef*)malloc(sizeof(PID_HandleTypeDef));
     if (handle == NULL) {
         return NULL;
