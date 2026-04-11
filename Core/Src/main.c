@@ -26,8 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "OLED_GFX.h"
-#include "ADC_Vref.h"   
+#include "OLED_GFX.h"   
 #include <stdio.h>     
 /* USER CODE END Includes */
 
@@ -98,12 +97,12 @@ int main(void)
   MX_ADC2_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
 	OLED_GFX_Init();
 
-	
-	ADC_Vref_Start();   
+	  
 	
 //	OLED_ShowString(0, 0, "hello!");
 //	OLED_GFX_Refresh();
@@ -118,18 +117,6 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     OLED_GFX_Clear();
-	  ADC_Read_And_Calculate(); 
-	  char str_buf[32];
-	  
-
-	  sprintf(str_buf, "Vdda: %5.2fV", sysData.Vdda);
-    OLED_ShowString(0, 0, str_buf);	
-	  
-	  sprintf(str_buf, "VDC : %5.2fV", sysData.Sample_V_DC);
-    OLED_ShowString(0, 16, str_buf);
-	  
-	  sprintf(str_buf, "VAC : %5.2fV", sysData.Sample_V_AC);
-    OLED_ShowString(0, 32, str_buf);
 	  
 //	  sprintf(str_buf, "IDC : %5.2fA", sysData.Sample_I_DC);
 //    OLED_ShowString(0, 0, str_buf);
