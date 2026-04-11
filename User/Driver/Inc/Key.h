@@ -1,0 +1,13 @@
+#ifndef __KEY_H
+#define __KEY_H
+
+#include <stdint.h>
+
+void Key_Init(void);
+void Key_DeInit(void);
+
+uint8_t Key_EncoderDIsPressed(void);
+uint8_t Key_SW1IsPressed(void);
+uint8_t Key_SW2IsPressed(void);
+
+#endif /* __KEY_H */

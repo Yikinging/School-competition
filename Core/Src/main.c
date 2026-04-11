@@ -101,8 +101,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	OLED_GFX_Init();
-
-	  
+ 
 	
 //	OLED_ShowString(0, 0, "hello!");
 //	OLED_GFX_Refresh();
