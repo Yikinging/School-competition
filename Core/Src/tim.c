@@ -75,13 +75,14 @@ void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 0;
+  if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
-  if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
@@ -190,6 +191,7 @@ void MX_TIM4_Init(void)
 void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
 {
 
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
   if(tim_pwmHandle->Instance==TIM1)
   {
   /* USER CODE BEGIN TIM1_MspInit 0 */
@@ -197,6 +199,18 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
   /* USER CODE END TIM1_MspInit 0 */
     /* TIM1 clock enable */
     __HAL_RCC_TIM1_CLK_ENABLE();
+
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+    /**TIM1 GPIO Configuration
+    PE11     ------> TIM1_CH2
+    */
+    GPIO_InitStruct.Pin = H3_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
+    HAL_GPIO_Init(H3_GPIO_Port, &GPIO_InitStruct);
+
   /* USER CODE BEGIN TIM1_MspInit 1 */
 
   /* USER CODE END TIM1_MspInit 1 */
@@ -267,9 +281,11 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     PE8     ------> TIM1_CH1N
     PE9     ------> TIM1_CH1
     PE10     ------> TIM1_CH2N
-    PE11     ------> TIM1_CH2
+    PE12     ------> TIM1_CH3N
+    PE13     ------> TIM1_CH3
     */
-    GPIO_InitStruct.Pin = L1_Pin|H1_Pin|L3_Pin|H3_Pin;
+    GPIO_InitStruct.Pin = L1_Pin|H1_Pin|L3_Pin|L2_Pin
+                          |H2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -293,6 +309,18 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
   /* USER CODE END TIM1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_TIM1_CLK_DISABLE();
+
+    /**TIM1 GPIO Configuration
+    PE8     ------> TIM1_CH1N
+    PE9     ------> TIM1_CH1
+    PE10     ------> TIM1_CH2N
+    PE11     ------> TIM1_CH2
+    PE12     ------> TIM1_CH3N
+    PE13     ------> TIM1_CH3
+    */
+    HAL_GPIO_DeInit(GPIOE, L1_Pin|H1_Pin|L3_Pin|H3_Pin
+                          |L2_Pin|H2_Pin);
+
   /* USER CODE BEGIN TIM1_MspDeInit 1 */
 
   /* USER CODE END TIM1_MspDeInit 1 */
