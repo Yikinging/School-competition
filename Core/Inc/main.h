@@ -67,6 +67,12 @@ void Error_Handler(void);
 #define IDC_GPIO_Port GPIOC
 #define VBUS_Pin GPIO_PIN_0
 #define VBUS_GPIO_Port GPIOA
+#define SW2_Pin GPIO_PIN_3
+#define SW2_GPIO_Port GPIOA
+#define SW1_Pin GPIO_PIN_4
+#define SW1_GPIO_Port GPIOA
+#define EncoderD_Pin GPIO_PIN_5
+#define EncoderD_GPIO_Port GPIOA
 #define EncoderA_Pin GPIO_PIN_6
 #define EncoderA_GPIO_Port GPIOA
 #define EncoderB_Pin GPIO_PIN_7

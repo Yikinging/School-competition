@@ -51,10 +51,10 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pins : SW2_Pin SW1_Pin EncoderD_Pin */
+  GPIO_InitStruct.Pin = SW2_Pin|SW1_Pin|EncoderD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 }
