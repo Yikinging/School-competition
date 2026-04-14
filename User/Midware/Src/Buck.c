@@ -6,13 +6,14 @@ struct Buck_HandleTypeDef {
     PID_HandleTypeDef* OutPutVoltagePID;
     PID_HandleTypeDef* InductorCurrentPID;
     Buck_StateTypeDef State;
+    Buck_FaultFlagTypeDef FaultFlag;
     float TargetOutputVoltage;
     float MaxInductorCurrent;
     float Duty;
 };
 
 Buck_HandleTypeDef*  Buck_Init(Buck_InitTypeDef* init) {
-    //Varify input parameters
+    // Verify input parameters
     if (init == NULL 
         || init->InitFunc == NULL
         || init->DeInitFunc == NULL
@@ -29,12 +30,15 @@ Buck_HandleTypeDef*  Buck_Init(Buck_InitTypeDef* init) {
     if (handle == NULL) {
         return NULL;
     }
+
     // Load initialization parameters
     (*handle) = (Buck_HandleTypeDef){0}; 
     handle->Init = *init;
     handle->TargetOutputVoltage = 0.0f;
     handle->MaxInductorCurrent = 0.0f;
     handle->Duty = 0.0f;
+    handle->State = BUCK_DISABLED;
+    handle->FaultFlag = BUCK_NOERROR;
 
     // Call user-defined initialization function
     init->InitFunc();
@@ -78,7 +82,14 @@ void Buck_Start(Buck_HandleTypeDef* handle) {
     if (handle == NULL) {
         return;
     }
+
+    if (handle->State == BUCK_ERROR) {
+        return; 
+    }
+    
     handle->Init.Start();
+    PID_Reset(handle->OutPutVoltagePID);
+    PID_Reset(handle->InductorCurrentPID);
     handle->State = BUCK_CVMODE; // Default to CV mode when starting
 }
 
@@ -92,9 +103,24 @@ void Buck_Stop(Buck_HandleTypeDef* handle) {
 
 Buck_StateTypeDef Buck_GetState(Buck_HandleTypeDef* handle) {
     if (handle == NULL) {
-        return BUCK_INVALID;
+        return BUCK_ERROR;
     }
     return handle->State;
+}
+
+Buck_FaultFlagTypeDef Buck_GetFaultFlag(Buck_HandleTypeDef* handle) {
+    if (handle == NULL) {
+        return BUCK_NOERROR;
+    }
+    return handle->FaultFlag;
+}
+
+void Buck_ClearFaultFlag(Buck_HandleTypeDef* handle) {
+    if (handle == NULL) {
+        return;
+    }
+    handle->FaultFlag = BUCK_NOERROR;
+    handle->State = BUCK_DISABLED;
 }
 
 
@@ -119,26 +145,40 @@ void Buck_Sync(Buck_HandleTypeDef* handle) {
         return;
     }
 
-    //Get neccessary parameters
+    if (handle->State == BUCK_ERROR) {
+        return; 
+    } else if (handle->State == BUCK_DISABLED) {
+        return; 
+    }
+
+    //Get necessary parameters
     float presentVoltage = handle->Init.GetOutputVoltage();
     float presentCurrent = handle->Init.GetInductorCurrent();
 
+    //Protection
+    if ( presentCurrent > BUCK_OCTHRESHOLD + handle->MaxInductorCurrent){
+        Buck_Stop(handle);
+        handle->State = BUCK_ERROR;
+        handle->FaultFlag |= BUCK_OCP;
+        return;
+    }
+    if  (presentVoltage > BUCK_OVTHRESHOLD + handle->TargetOutputVoltage){
+        Buck_Stop(handle);
+        handle->State = BUCK_ERROR;
+        handle->FaultFlag |= BUCK_OVP;
+        return;
+    }
+
     //Compute target inductor current based on output voltage error, with anti-windup
     float targetInductorCurrent = PID_ComputeConditional(handle->OutPutVoltagePID, handle->TargetOutputVoltage, presentVoltage, 0.0f, handle->MaxInductorCurrent);
-    if (targetInductorCurrent > handle->MaxInductorCurrent) {
-        targetInductorCurrent = handle->MaxInductorCurrent;
+    
+    if (PID_GetState(handle->OutPutVoltagePID) == PID_UpperSaturated){
         handle->State = BUCK_CCMODE;
     } else {
         handle->State = BUCK_CVMODE;
     }
-    float duty = PID_ComputeConditional(handle->InductorCurrentPID, targetInductorCurrent, presentCurrent, 0.0f, 1.0f);
-
-    // Limit duty cycle
-    if (duty > 0.95f) {
-        duty = 0.95f;
-    } else if (duty < 0.05f) {
-        duty = 0.05f;
-    }
+    
+    float duty = PID_ComputeConditional(handle->InductorCurrentPID, targetInductorCurrent, presentCurrent, BUCK_MIN_DUTY, BUCK_MAX_DUTY);
 
     // Set duty cycle
     handle->Duty = duty;
