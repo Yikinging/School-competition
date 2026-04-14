@@ -2,7 +2,7 @@
 ADC1.Channel-2\#ChannelRegularConversion=ADC_CHANNEL_VREFINT
 ADC1.ContinuousConvMode=ENABLE
 ADC1.EOCSelection=ADC_EOC_SEQ_CONV
-ADC1.ExternalTrigConv=ADC_EXTERNALTRIGCONV_T1_CC3
+ADC1.ExternalTrigConv=ADC_SOFTWARE_START
 ADC1.IPParameters=Rank-2\#ChannelRegularConversion,master,Channel-2\#ChannelRegularConversion,SamplingTime-2\#ChannelRegularConversion,NbrOfConversionFlag,ExternalTrigConv,EOCSelection,Mode,NbrOfConversion,ContinuousConvMode
 ADC1.Mode=__NULL
 ADC1.NbrOfConversion=1
@@ -309,7 +309,7 @@ TIM1.Period=840
 TIM1.Prescaler=0
 TIM1.Pulse-PWM\ Generation1\ CH1\ CH1N=420
 TIM1.RepetitionCounter=0
-TIM1.TIM_MasterOutputTrigger=TIM_TRGO_OC4REF
+TIM1.TIM_MasterOutputTrigger=TIM_TRGO_RESET
 TIM1.TIM_MasterSlaveMode=TIM_MASTERSLAVEMODE_DISABLE
 TIM3.ClockDivision=TIM_CLOCKDIVISION_DIV1
 TIM3.EncoderMode=TIM_ENCODERMODE_TI12
