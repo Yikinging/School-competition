@@ -13,6 +13,7 @@ void PWM_Init(void){
     // HAL_TIM_PWM_Start(PWM_TIMHandle, PWM_BuckChannel);
     // HAL_TIMEx_PWMN_Start(PWM_TIMHandle, PWM_BuckChannel);
     
+    __HAL_TIM_MOE_DISABLE(PWM_TIMHandle);
     HAL_TIM_OC_Start(PWM_TIMHandle, PWM_ADCTriggerChannel);
 
     // __HAL_TIM_MOE_ENABLE(PWM_TIMHandle);

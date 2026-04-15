@@ -27,7 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "OLED_GFX.h"   
-#include <stdio.h>     
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,10 +101,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
 	OLED_GFX_Init();
+  // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 420);
+  // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  // HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+  // __HAL_TIM_MOE_ENABLE(&htim1);
  
 	
-//	OLED_ShowString(0, 0, "hello!");
-//	OLED_GFX_Refresh();
+	OLED_ShowString(0, 0, "hello!");
+	OLED_GFX_Refresh();
 
   /* USER CODE END 2 */
 
@@ -115,19 +119,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    OLED_GFX_Clear();
-	  
-//	  sprintf(str_buf, "IDC : %5.2fA", sysData.Sample_I_DC);
-//    OLED_ShowString(0, 0, str_buf);
-//	  
-//	  sprintf(str_buf, "IAC : %5.2fA", sysData.Sample_I_DC);
-//    OLED_ShowString(0, 16, str_buf);
-//	
-//	  sprintf(str_buf, "VBUS : %5.2fA", sysData.Sample_I_DC);
-//    OLED_ShowString(0, 32, str_buf);
-	  
-	  OLED_GFX_Refresh();
-	  HAL_Delay(100);
 	  
   }
   /* USER CODE END 3 */
